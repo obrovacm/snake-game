@@ -3,8 +3,6 @@ let snake, food, gridColumns, gridRows;
 let dot = 20;
 
 function setup() {
-  noLoop();
-
   const canvas = createCanvas(400, 400);
   canvas.parent("canvas-container");
 
@@ -18,26 +16,26 @@ function setup() {
 }
 
 // if game over => block keyPress
-// block backwards
 function keyPressed() {
-  loop();
+  // block backward movement
+  const { xdir, ydir } = snake;
   switch (keyCode) {
     case LEFT_ARROW:
-      snake.setDir(-1, 0);
+      if (xdir === 0) snake.setDir(-1, 0);
+
       break;
     case RIGHT_ARROW:
-      snake.setDir(1, 0);
+      if (xdir === 0) snake.setDir(1, 0);
       break;
     case UP_ARROW:
-      snake.setDir(0, -1);
+      if (ydir === 0) snake.setDir(0, -1);
       break;
     case DOWN_ARROW:
-      snake.setDir(0, 1);
+      if (ydir === 0) snake.setDir(0, 1);
       break;
     // testing && development keys
     case 32: // 'space' stops the snake
       snake.setDir(0, 0);
-      noLoop();
       break;
     case 71: // 'g' grows the tail
       snake.grow();
