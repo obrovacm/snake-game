@@ -13,10 +13,13 @@ class Snake {
   }
 
   update() {
-    // each body part takes position of the part in front of it self
-    for (let i = this.body.length - 1; i > 0; i--) {
-      this.body[i].x = this.body[i - 1].x;
-      this.body[i].y = this.body[i - 1].y;
+    // if head is not moving, don't update the body
+    if (this.xdir != 0 || this.ydir != 0) {
+      // each body part takes position of the part in front of it self
+      for (let i = this.body.length - 1; i > 0; i--) {
+        this.body[i].x = this.body[i - 1].x;
+        this.body[i].y = this.body[i - 1].y;
+      }
     }
     // head then takes the new position
     this.body[0].x += this.xdir;
@@ -40,13 +43,23 @@ class Snake {
     return false;
   }
 
+  gameOver() {
+    let { x, y } = this.body[0];
+    //hitting the wall
+    if (x < 0 || y < 0 || x >= gridColumns || y >= gridRows) {
+      return true;
+    }
+    //ujed repa
+    return false;
+  }
+
   show() {
     fill(0);
     noStroke();
-    //head
-    rect(this.body[0].x, this.body[0].y, 1, 1);
-    //body
     for (let i = 0; i < this.body.length; i++) {
+      if (i > 0) {
+        fill("green");
+      }
       rect(this.body[i].x, this.body[i].y, 1, 1);
     }
   }
