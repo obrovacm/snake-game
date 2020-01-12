@@ -13,15 +13,16 @@ class Snake {
   }
 
   update() {
-    // if head is not moving, don't update the body
+    // if head isn't moving, don't update the body
     if (this.xdir != 0 || this.ydir != 0) {
-      // each body part takes position of the part in front of it self
+      // each body part gets new position from the part in front of it
+      // iterating from last to first so we don't overwrite positions before we forward them to the next body part
       for (let i = this.body.length - 1; i > 0; i--) {
         this.body[i].x = this.body[i - 1].x;
         this.body[i].y = this.body[i - 1].y;
       }
     }
-    // head then takes the new position
+    // at last, head then takes the new position
     this.body[0].x += this.xdir;
     this.body[0].y += this.ydir;
   }
@@ -36,7 +37,6 @@ class Snake {
     let x = this.body[0].x;
     let y = this.body[0].y;
     if (x == food.x && y == food.y) {
-      this.grow();
       return true;
     }
     return false;

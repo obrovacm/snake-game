@@ -14,7 +14,7 @@ function setup() {
   gridRows = floor(height / dot);
 
   snake = new Snake();
-  food = new Food();
+  food = new Food(snake.body);
 }
 
 // if game over => block keyPress
@@ -34,6 +34,7 @@ function keyPressed() {
     case DOWN_ARROW:
       snake.setDir(0, 1);
       break;
+    // testing && development keys
     case 32: // 'space' stops the snake
       snake.setDir(0, 0);
       noLoop();
@@ -42,10 +43,9 @@ function keyPressed() {
       snake.grow();
       snake.grow();
       snake.grow();
-      console.log("zmija raste");
       break;
     default:
-      console.log("switch neko dugme:", keyCode);
+      console.log("key pressed:", keyCode);
   }
 }
 
@@ -54,8 +54,10 @@ function draw() {
   background(220);
 
   if (snake.eat(food.location)) {
-    food.eaten();
+    food.eaten(snake.body);
+    snake.grow();
   }
+
   snake.update();
   if (snake.gameOver()) {
     background(255, 0, 0);

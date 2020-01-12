@@ -1,17 +1,28 @@
 class Food {
-  constructor() {
-    this.location = this.newLocation();
+  constructor(snakeBody) {
+    this.location = this.newLocation(snakeBody);
   }
 
-  newLocation() {
-    // avoid snake body!!!
+  newLocation(snakeBody) {
     let x = floor(random(gridColumns));
     let y = floor(random(gridRows));
+    // let snakeBodyX = snakeBody.map(bodyPart => bodyPart.x);
+    // print("snakeBodyX", snakeBodyX);
+    // let snakeBodyY = snakeBody.map(bodyPart => bodyPart.y);
+    // print("snakeBodyY", snakeBodyY);
+    // while (snakeBodyX.includes(x)) {
+    //   x = floor(random(gridColumns));
+    //   print("searching for food location X");
+    // }
+    // while (snakeBodyY.includes(y)) {
+    //   y = floor(random(gridRows));
+    //   print("searching for food location Y");
+    // }
     return createVector(x, y);
   }
 
-  eaten() {
-    this.location = this.newLocation();
+  eaten(snakeBody) {
+    this.location = this.newLocation(snakeBody);
   }
 
   show() {
