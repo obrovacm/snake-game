@@ -32,11 +32,10 @@ class Snake {
     this.body.push(growthUnit);
   }
 
-  eat(pos) {
+  eat(food) {
     let x = this.body[0].x;
     let y = this.body[0].y;
-    if (x == pos.x && y == pos.y) {
-      print("food eaten", this.body[this.body.length - 1]);
+    if (x == food.x && y == food.y) {
       this.grow();
       return true;
     }
@@ -44,12 +43,17 @@ class Snake {
   }
 
   gameOver() {
-    let { x, y } = this.body[0];
+    let head = this.body[0];
     //hitting the wall
-    if (x < 0 || y < 0 || x >= gridColumns || y >= gridRows) {
+    if (
+      head.x < 0 ||
+      head.y < 0 ||
+      head.x >= gridColumns ||
+      head.y >= gridRows
+    ) {
       return true;
     }
-    //ujed repa
+    //biting the tail
     return false;
   }
 

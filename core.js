@@ -1,5 +1,5 @@
 let snake, food, gridColumns, gridRows;
-//canvas resolution (pixel size)
+//canvas resolution (pixel/grid unit size)
 let dot = 20;
 
 function setup() {
@@ -14,16 +14,11 @@ function setup() {
   gridRows = floor(height / dot);
 
   snake = new Snake();
-  foodLocation();
+  food = new Food();
 }
 
-function foodLocation() {
-  let x = floor(random(gridColumns));
-  let y = floor(random(gridRows));
-  food = createVector(x, y);
-  print("food", food);
-}
-
+// if game over => block keyPress
+// block backwards
 function keyPressed() {
   loop();
   switch (keyCode) {
@@ -44,7 +39,9 @@ function keyPressed() {
       noLoop();
       break;
     case 71: // 'g' grows the tail
-      // snake.tailGrowth()
+      snake.grow();
+      snake.grow();
+      snake.grow();
       console.log("zmija raste");
       break;
     default:
@@ -56,8 +53,8 @@ function draw() {
   scale(dot);
   background(220);
 
-  if (snake.eat(food)) {
-    foodLocation();
+  if (snake.eat(food.location)) {
+    food.eaten();
   }
   snake.update();
   if (snake.gameOver()) {
@@ -65,9 +62,7 @@ function draw() {
     snake.setDir(0, 0);
   } else {
   }
+  food.show();
   snake.show();
-
-  //create food obj later
-  fill(255, 0, 0);
-  rect(food.x, food.y, 1, 1);
 }
+//show snake after food, so it's drawn on top when eating
