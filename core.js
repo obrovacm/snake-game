@@ -1,10 +1,14 @@
 let snake, food, gridColumns, gridRows;
-//canvas resolution (pixel/grid unit size)
-let dot = 20;
+// blocks backward movement
+let lockLeft = true,
+  lockRight = false,
+  lockUp = false,
+  lockDown = false;
+let dot = 20; //canvas resolution (pixel/grid unit size)
 
 function setup() {
   const canvas = createCanvas(400, 400);
-  canvas.parent("canvas-container");
+  canvas.parent('canvas-container');
 
   frameRate(10);
   // if canvas is square, one value is enough (gridDot)
@@ -17,33 +21,44 @@ function setup() {
 
 // if game over => block keyPress
 function keyPressed() {
-  // block backward movement
-  const { xdir, ydir } = snake;
   switch (keyCode) {
     case LEFT_ARROW:
-      if (xdir === 0) snake.setDir(-1, 0);
-
+      if (!lockLeft) {
+        snake.setDir(-1, 0);
+        snake.pause = false;
+      }
       break;
     case RIGHT_ARROW:
-      if (xdir === 0) snake.setDir(1, 0);
+      if (!lockRight) {
+        snake.setDir(1, 0);
+        snake.pause = false;
+      }
       break;
     case UP_ARROW:
-      if (ydir === 0) snake.setDir(0, -1);
+      if (!lockUp) {
+        snake.setDir(0, -1);
+        snake.pause = false;
+      }
       break;
     case DOWN_ARROW:
-      if (ydir === 0) snake.setDir(0, 1);
+      if (!lockDown) {
+        snake.setDir(0, 1);
+        snake.pause = false;
+      }
       break;
     // testing && development keys
     case 32: // 'space' stops the snake
-      snake.setDir(0, 0);
+      if (snake.xdir !== 0 || snake.ydir !== 0) {
+        snake.stop();
+      }
       break;
-    case 71: // 'g' grows the tail
+    case 71: // 'g' grows the tail by 3 units
       snake.grow();
       snake.grow();
       snake.grow();
       break;
     default:
-      console.log("key pressed:", keyCode);
+      console.log('key pressed:', keyCode);
   }
 }
 
@@ -58,9 +73,22 @@ function draw() {
 
   snake.update();
   if (snake.gameOver()) {
-    background(255, 0, 0);
+    background(255, 0, 0); // red background
     snake.setDir(0, 0);
-  } else {
+  }
+
+  if (!snake.pause) {
+    if (snake.xdir === 0 && snake.ydir !== 0) {
+      lockLeft = false;
+      lockRight = false;
+      lockUp = true;
+      lockDown = true;
+    } else {
+      lockLeft = true;
+      lockRight = true;
+      lockUp = false;
+      lockDown = false;
+    }
   }
   food.show();
   snake.show();

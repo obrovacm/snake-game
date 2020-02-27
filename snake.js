@@ -5,11 +5,44 @@ class Snake {
     this.body[1] = createVector(0, 0);
     this.xdir = 0;
     this.ydir = 0; //direction
+    this.pause = true;
   }
 
   setDir(x, y) {
     this.xdir = x;
     this.ydir = y;
+  }
+
+  stop() {
+    // prevents snake from going backwards
+    switch (this.xdir) {
+      case -1:
+        lockLeft = false;
+        lockRight = true;
+        break;
+      case 1:
+        lockLeft = true;
+        lockRight = false;
+        break;
+      case 0:
+        lockLeft = false;
+        lockRight = false;
+    }
+    switch (this.ydir) {
+      case -1:
+        lockUp = false;
+        lockDown = true;
+        break;
+      case 1:
+        lockUp = true;
+        lockDown = false;
+        break;
+      case 0:
+        lockUp = false;
+        lockDown = false;
+    }
+    this.pause = true;
+    this.setDir(0, 0);
   }
 
   update() {
@@ -62,7 +95,7 @@ class Snake {
     noStroke();
     for (let i = 0; i < this.body.length; i++) {
       if (i > 0) {
-        fill("green");
+        fill('green');
       }
       rect(this.body[i].x, this.body[i].y, 1, 1);
     }
