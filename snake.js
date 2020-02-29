@@ -1,11 +1,13 @@
 class Snake {
   constructor() {
     this.body = [];
-    this.body[0] = createVector(1, 0);
-    this.body[1] = createVector(0, 0);
+    this.body[0] = createVector(9, 9);
+    this.body[1] = createVector(8, 9);
+    this.body[2] = createVector(7, 9);
     this.xdir = 0;
     this.ydir = 0; //direction
     this.pause = true;
+    this.counter = 0;
   }
 
   setDir(x, y) {
@@ -58,6 +60,8 @@ class Snake {
     // at last, head then takes the new position
     this.body[0].x += this.xdir;
     this.body[0].y += this.ydir;
+
+    this.hitWall();
   }
 
   grow() {
@@ -70,6 +74,7 @@ class Snake {
     let x = this.body[0].x;
     let y = this.body[0].y;
     if (x == food.x && y == food.y) {
+      this.grow();
       return true;
     }
     return false;
@@ -83,9 +88,10 @@ class Snake {
       head.x >= gridColumns ||
       head.y >= gridRows
     ) {
-      return true;
+      background(255, 0, 0); // red background
+      // treba da se crveni ili okvir, ili glava
+      this.setDir(0, 0);
     }
-    return false;
   }
 
   bitTail() {
@@ -95,10 +101,19 @@ class Snake {
         this.body[i].x === head.x &&
         this.body[i].y === head.y
       ) {
-        return true;
+        // stop snake
+        this.setDir(0, 0);
+        // head blinks 
+        this.counter++;
+        if (this.counter % 2 == 0) {
+          fill(0);
+        } else {
+          fill(255, 0, 0);
+        }
+        rect(this.body[0].x, this.body[0].y, 1, 1);
+        break;
       }
     }
-    return false;
   }
 
   show() {
@@ -110,5 +125,8 @@ class Snake {
       }
       rect(this.body[i].x, this.body[i].y, 1, 1);
     }
+    // game over check goes here in order to draw 
+    // on top of the whole image
+    this.bitTail();
   }
 }

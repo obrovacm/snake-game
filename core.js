@@ -68,22 +68,17 @@ function draw() {
 
   if (snake.eat(food.location)) {
     food.eaten(snake.body);
-    snake.grow();
   }
 
   snake.update();
-  if (snake.hitWall()) {
-    background(255, 0, 0); // red background
-    // treba da se crveni ili okvir, ili glava
-    snake.setDir(0, 0); // posle obrisati
-  }
-  if (snake.bitTail()) {
-    snake.setDir(0, 0);
-  }
+  food.show();
+  snake.show();
 
-  // UPOTREBITI lock iz paze za stalano
+  // UPOTREBITI lock iz pauze za stalano
   // napravit lock objekat npr. lock.right
   // napraviti igru skalabilnijom, preorganizovati kod
+
+  // odvojiti crtanje od logike
 
   // this applies only when the game is not paused
   // because lock works differently then
@@ -101,7 +96,5 @@ function draw() {
       lockDown = false;
     }
   }
-  food.show();
-  snake.show();
 }
 //show snake after food, so it's drawn on top when eating

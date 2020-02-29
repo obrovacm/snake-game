@@ -18,6 +18,11 @@ class Food {
     //   y = floor(random(gridRows));
     //   print("searching for food location Y");
     // }
+
+    // moze da se resi uzimanjem niza u kojoj svaka
+    // vrednost predstavlja tacku na kanvasu
+
+    // pa kada se generise mesto 
     return createVector(x, y);
   }
 
