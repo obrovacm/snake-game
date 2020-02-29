@@ -72,12 +72,23 @@ function draw() {
   }
 
   snake.update();
-  if (snake.gameOver()) {
+  if (snake.hitWall()) {
     background(255, 0, 0); // red background
+    // treba da se crveni ili okvir, ili glava
+    snake.setDir(0, 0); // posle obrisati
+  }
+  if (snake.bitTail()) {
     snake.setDir(0, 0);
   }
 
+  // UPOTREBITI lock iz paze za stalano
+  // napravit lock objekat npr. lock.right
+  // napraviti igru skalabilnijom, preorganizovati kod
+
+  // this applies only when the game is not paused
+  // because lock works differently then
   if (!snake.pause) {
+    // locks controls of axis direction if snake is already moving on it
     if (snake.xdir === 0 && snake.ydir !== 0) {
       lockLeft = false;
       lockRight = false;

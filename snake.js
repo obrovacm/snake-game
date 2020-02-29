@@ -14,7 +14,7 @@ class Snake {
   }
 
   stop() {
-    // prevents snake from going backwards
+    // prevents snake from resuming backwards
     switch (this.xdir) {
       case -1:
         lockLeft = false;
@@ -75,9 +75,8 @@ class Snake {
     return false;
   }
 
-  gameOver() {
+  hitWall() {
     let head = this.body[0];
-    //hitting the wall
     if (
       head.x < 0 ||
       head.y < 0 ||
@@ -86,7 +85,19 @@ class Snake {
     ) {
       return true;
     }
-    //biting the tail
+    return false;
+  }
+
+  bitTail() {
+    let head = this.body[0];
+    for (let i = 1; i < this.body.length; i++) {
+      if ( //head position equal to any body part
+        this.body[i].x === head.x &&
+        this.body[i].y === head.y
+      ) {
+        return true;
+      }
+    }
     return false;
   }
 
