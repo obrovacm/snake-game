@@ -25,34 +25,52 @@ function draw() {
   background(220);
 
   snake.update();
-  // food.show();
-  // snake.show();
-
-  // UPOTREBITI lock iz pauze za stalano
-  // napravit lock objekat npr. lock.right
-  // napraviti igru skalabilnijom, preorganizovati kod
-
-  // odvojiti crtanje od logike
-
+  DRAW.food();
+  DRAW.snake();
+  if (state.gameOver) {
+    DRAW.gameOver();
+    lockUp.all();
+  }
+  lockUp.direction();
   // this applies only when the game is not paused
   // because lock works differently then
-  if (!snake.pause) {
-    // locks controls of axis direction if snake is already moving on it
-    if (snake.xdir === 0 && snake.ydir !== 0) {
-      lockLeft = false;
-      lockRight = false;
-      lockUp = true;
-      lockDown = true;
-    } else {
-      lockLeft = true;
-      lockRight = true;
-      lockUp = false;
-      lockDown = false;
-    }
-  }
 }
 //show snake after food, so it's drawn on top when eating
 
-// export default draw;
+const DRAW = {
+  snake() {
+    fill(0);
+    noStroke();
+    for (let i = 0; i < snake.body.length; i++) {
+      if (i > 0) {
+        fill('green');
+      }
+      rect(snake.body[i].x, snake.body[i].y, 1, 1);
+    }
+  },
 
-console.log('radi?');
+  food() {
+    fill('red');
+    noStroke();
+    rect(food.location.x, food.location.y, 1, 1);
+  },
+
+  gameOver() {
+    if (this.counter) {
+      this.counter = false;
+    } else {
+      this.counter = true;
+    }
+
+    if (this.counter % 2) {
+      fill('red');
+    } else {
+      fill(0);
+    }
+
+    noStroke();
+    rect(snake.body[0].x, snake.body[0].y, 1, 1); // head blinker
+
+    console.log('game over');
+  }
+};

@@ -8,19 +8,19 @@ function keyPressed() {
       break;
     case RIGHT_ARROW:
       if (!lock.right) {
-        snake.setDir(DIR.left);
+        snake.setDir(DIR.right);
         state.pause = false;
       }
       break;
     case UP_ARROW:
       if (!lock.up) {
-        snake.setDir(DIR.left);
+        snake.setDir(DIR.up);
         state.pause = false;
       }
       break;
     case DOWN_ARROW:
       if (!lock.down) {
-        snake.setDir(DIR.left);
+        snake.setDir(DIR.down);
         state.pause = false;
       }
       break;

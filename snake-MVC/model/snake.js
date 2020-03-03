@@ -1,4 +1,3 @@
-// export default
 class Snake {
   constructor() {
     this.body = [createVector(9, 9), createVector(8, 9), createVector(7, 9)];
@@ -11,40 +10,14 @@ class Snake {
   }
 
   stop() {
-    // prevents snake from resuming backwards
-    switch (this.dir.x) {
-      case -1:
-        lock.left = false;
-        lock.right = true;
-        break;
-      case 1:
-        lock.left = true;
-        lock.right = false;
-        break;
-      case 0:
-        lock.left = false;
-        lock.right = false;
-    }
-    switch (this.dir.y) {
-      case -1:
-        lock.up = false;
-        lock.down = true;
-        break;
-      case 1:
-        lock.up = true;
-        lock.down = false;
-        break;
-      case 0:
-        lock.up = false;
-        lock.down = false;
-    }
+    lockUp.pause();
     // this.pause = true;
     this.setDir(DIR.none);
   }
 
   update() {
     // if head isn't moving, don't update (move) the body
-    if (this.dir == DIR.none) {
+    if (this.dir !== DIR.none) {
       // each body part gets new position from the part in front of it
       // iterating from last to first so we don't overwrite positions before we forward them to the next body part
       for (let i = this.body.length - 1; i > 0; i--) {
@@ -63,11 +36,12 @@ class Snake {
 
   eat() {
     let { x, y } = this.body[0]; // head
-    if (x == food.x && y == food.y) {
+    if (x == food.location.x && y == food.location.y) {
       this.grow();
       food.eaten();
     }
   }
+
   grow() {
     let tail = this.body[this.body.length - 1];
     let growthUnit = createVector(tail.x, tail.y);
@@ -80,7 +54,7 @@ class Snake {
       // background(255, 0, 0); // red background
       // treba da se crveni ili okvir, ili glava
       this.setDir(DIR.none);
-      // GAME OVER
+      state.gameOver = true;
     }
   }
 
@@ -94,11 +68,9 @@ class Snake {
       ) {
         // stop snake
         this.setDir(DIR.none);
-        // GAME OVER
+        state.gameOver = true;
         break;
       }
     }
   }
 }
-
-console.log('radi?');
