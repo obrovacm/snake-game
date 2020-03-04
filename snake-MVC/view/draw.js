@@ -6,12 +6,13 @@
 // };
 let dot = 20; //canvas resolution (pixel/grid unit size)
 let snake, food, gridColumns, gridRows;
+let frameCounter = 0;
 
 function setup() {
   const canvas = createCanvas(400, 400);
   canvas.parent('canvas-container');
 
-  frameRate(10);
+  frameRate(20);
   // if canvas is square, one value is enough (gridDot)
   gridColumns = floor(width / dot);
   gridRows = floor(height / dot);
@@ -20,11 +21,24 @@ function setup() {
   food = new Food();
 }
 
+// NEOPHODNO je da odvojim i otkucavanje igre od kanvasa...
+// igra treba da tece po intervalu koji poziva update(),
+// a kanvas samo da iscrtava, ucestanije nego sto interval otkucava!
+
 function draw() {
   scale(dot);
   background(220);
 
-  snake.update();
+  // updates snake on every 2nd frame
+  // which allows for fluid animation
+  // between steps of the game
+  if (frameCounter < 2) {
+    frameCounter++;
+  } else {
+    snake.update();
+    frameCounter = 0;
+  }
+
   DRAW.food();
   DRAW.snake();
   if (state.gameOver) {
@@ -50,9 +64,15 @@ const DRAW = {
   },
 
   food() {
+    // scale(20 / 20);
     fill('red');
     noStroke();
-    rect(food.location.x, food.location.y, 1, 1);
+    rect(
+      food.location.x,
+      food.location.y,
+      random(0.5, 0.75),
+      random(0.5, 0.75)
+    );
   },
 
   gameOver() {
