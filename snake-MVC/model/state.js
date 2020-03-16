@@ -1,4 +1,5 @@
-// CONSTANT direction setter
+// CONSTANTS
+// direction setter
 const DIR = {
   left: { x: -1, y: 0 },
   right: { x: 1, y: 0 },
